@@ -1,45 +1,80 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 const widgetButtons = [
-  ['text', 'Texto libre'],
-  ['qr', 'URL / QR'],
-  ['datetime', 'Fecha y hora'],
-  ['image', 'Imagen'],
-  ['weather', 'Tiempo'],
-  ['forecast', 'Previsión'],
+  ['text', 'Texto libre', 'lucide:type'],
+  ['qr', 'URL / QR', 'lucide:qr-code'],
+  ['datetime', 'Fecha y hora', 'lucide:clock-3'],
+  ['image', 'Imagen', 'lucide:image'],
+  ['weather', 'Tiempo', 'lucide:sun-cloud'],
+  ['forecast', 'Previsión', 'lucide:cloud-sun'],
 ];
 ---
 
 <section class="poster-app" data-poster-builder>
-  <header class="poster-hero">
+  <header class="poster-hero poster-hero-compact">
     <div>
       <p class="poster-kicker">Digital Signage</p>
-      <h1>Diseña pantallas para mostrar en una televisión</h1>
-      <p>
-        Arrastra widgets, cambia tamaños, crea varias páginas y comparte una URL lista para abrir en la pantalla.
-      </p>
+      <h1>Editor visual de pantallas</h1>
+      <p>Inserta widgets, configura la pantalla y copia la URL para abrirla en la televisión.</p>
     </div>
-    <div class="poster-actions">
-      <button type="button" data-export>Exportar JSON</button>
-      <button type="button" data-import>Importar JSON</button>
-      <button type="button" class="danger" data-reset>Resetear</button>
+    <div class="poster-actions" aria-label="Acciones de configuración">
+      <button type="button" data-export><Icon name="lucide:file-down" aria-hidden="true" /> Exportar JSON</button>
+      <button type="button" data-import><Icon name="lucide:file-up" aria-hidden="true" /> Importar JSON</button>
+      <button type="button" class="danger" data-reset><Icon name="lucide:rotate-ccw" aria-hidden="true" /> Resetear</button>
     </div>
   </header>
 
-  <div class="poster-grid">
-    <aside class="poster-panel">
-      <h2>Widgets</h2>
-      <div class="widget-palette">
-        {widgetButtons.map(([type, label]) => <button type="button" data-add-widget={type}>{label}</button>)}
-      </div>
-      <h2>Páginas</h2>
-      <div class="page-list" data-page-list></div>
-      <button type="button" data-add-page>Añadir página</button>
-    </aside>
+  <section class="widget-toolbar" aria-labelledby="widget-toolbar-title">
+    <div>
+      <p class="poster-kicker" id="widget-toolbar-title">Barra de herramientas</p>
+      <h2>Insertar widgets</h2>
+    </div>
+    <div class="widget-palette" role="toolbar" aria-label="Insertar widgets">
+      {widgetButtons.map(([type, label, icon]) => (
+        <button type="button" data-add-widget={type} title={label} aria-label={`Insertar ${label}`}>
+          <Icon name={icon} aria-hidden="true" />
+          <span>{label}</span>
+        </button>
+      ))}
+    </div>
+  </section>
 
-    <section class="poster-workspace" aria-label="Editor visual">
-      <div class="screen-shell">
-        <div class="poster-screen" data-editor-screen></div>
+  <div class="poster-layout">
+    <main class="poster-editor-main">
+      <section class="poster-workspace" aria-labelledby="preview-title">
+        <div class="panel-heading">
+          <div>
+            <p class="poster-kicker">Visualización</p>
+            <h2 id="preview-title">Pantalla</h2>
+          </div>
+          <span class="screen-ratio">16:9</span>
+        </div>
+        <div class="screen-shell">
+          <div class="poster-screen" data-editor-screen></div>
+        </div>
+      </section>
+
+      <aside class="poster-panel inspector" aria-labelledby="inspector-title">
+        <div class="panel-heading">
+          <div>
+            <p class="poster-kicker">Configuración</p>
+            <h2 id="inspector-title">Widget seleccionado</h2>
+          </div>
+        </div>
+        <div data-inspector aria-live="polite"></div>
+      </aside>
+    </main>
+
+    <aside class="poster-panel page-panel" aria-labelledby="pages-title">
+      <div class="panel-heading">
+        <div>
+          <p class="poster-kicker">Listado</p>
+          <h2 id="pages-title">Páginas</h2>
+        </div>
+        <button type="button" data-add-page aria-label="Añadir página"><Icon name="lucide:plus" aria-hidden="true" /> Añadir</button>
       </div>
+      <div class="page-list" data-page-list></div>
       <label class="share-url">
         <span>URL para la televisión</span>
         <input data-share-url readonly />
@@ -48,9 +83,7 @@ const widgetButtons = [
         <span>Configuración JSON</span>
         <textarea data-json rows="8" placeholder="Pulsa exportar JSON para copiar la configuración o pega aquí una configuración para importarla."></textarea>
       </label>
-    </section>
-
-    <aside class="poster-panel inspector" data-inspector aria-live="polite"></aside>
+    </aside>
   </div>
 </section>
 
