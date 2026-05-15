@@ -181,18 +181,18 @@ describe('project smoke checks', () => {
     assert.match(styles, /poster-screen-full/);
   });
 
-  it('uses an external icon pack for the insert toolbar layout', () => {
-    const pkg = readJson('package.json');
+  it('uses external Iconify icons for the insert toolbar layout', () => {
     const builder = readText('src/components/PosterBuilder.astro');
     const styles = readText('src/styles/global.css');
 
-    assert.ok(pkg.dependencies?.['@iconify-json/lucide']);
-    assert.match(builder, /astro-icon\/components/);
+    assert.match(builder, /api\.iconify\.design\/lucide/);
+    assert.match(builder, /toolbar-icon/);
     assert.match(builder, /widget-toolbar/);
-    assert.match(builder, /lucide:qr-code/);
+    assert.match(builder, /qr-code/);
     assert.match(builder, /poster-layout/);
     assert.match(builder, /poster-editor-main/);
     assert.match(builder, /page-panel/);
+    assert.match(styles, /toolbar-icon/);
     assert.match(styles, /widget-toolbar/);
     assert.match(styles, /poster-editor-main/);
     assert.match(styles, /page-panel/);

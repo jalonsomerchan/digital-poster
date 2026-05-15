@@ -99,7 +99,7 @@ button, input, select, textarea { font: inherit; }
   font-weight: 800;
   cursor: pointer;
 }
-.poster-actions svg, .widget-palette svg, .page-panel button svg { width: 1.15rem; height: 1.15rem; }
+.toolbar-icon { width: 1.15rem; height: 1.15rem; object-fit: contain; opacity: 0.9; }
 .poster-actions button:hover, .widget-palette button:hover, .page-panel button:hover { border-color: var(--color-primary); color: var(--color-primary); }
 button.danger, .inspector .danger { color: var(--color-danger); }
 .widget-toolbar {
