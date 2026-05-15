@@ -1,0 +1,57 @@
+---
+const widgetButtons = [
+  ['text', 'Texto libre'],
+  ['qr', 'URL / QR'],
+  ['datetime', 'Fecha y hora'],
+  ['image', 'Imagen'],
+  ['weather', 'Tiempo'],
+  ['forecast', 'Previsión'],
+];
+---
+
+<section class="poster-app" data-poster-builder>
+  <header class="poster-hero">
+    <div>
+      <p class="poster-kicker">Digital Signage</p>
+      <h1>Diseña pantallas para mostrar en una televisión</h1>
+      <p>
+        Arrastra widgets, cambia tamaños, crea varias páginas y comparte una URL lista para abrir en la pantalla.
+      </p>
+    </div>
+    <div class="poster-actions">
+      <button type="button" data-export>Exportar JSON</button>
+      <button type="button" data-import>Importar JSON</button>
+      <button type="button" class="danger" data-reset>Resetear</button>
+    </div>
+  </header>
+
+  <div class="poster-grid">
+    <aside class="poster-panel">
+      <h2>Widgets</h2>
+      <div class="widget-palette">
+        {widgetButtons.map(([type, label]) => <button type="button" data-add-widget={type}>{label}</button>)}
+      </div>
+      <h2>Páginas</h2>
+      <div class="page-list" data-page-list></div>
+      <button type="button" data-add-page>Añadir página</button>
+    </aside>
+
+    <section class="poster-workspace" aria-label="Editor visual">
+      <div class="screen-shell">
+        <div class="poster-screen" data-editor-screen></div>
+      </div>
+      <label class="share-url">
+        <span>URL para la televisión</span>
+        <input data-share-url readonly />
+      </label>
+      <label class="json-box">
+        <span>Configuración JSON</span>
+        <textarea data-json rows="8" placeholder="Pulsa exportar JSON para copiar la configuración o pega aquí una configuración para importarla."></textarea>
+      </label>
+    </section>
+
+    <aside class="poster-panel inspector" data-inspector aria-live="polite"></aside>
+  </div>
+</section>
+
+<script type="module" src={new URL('../scripts/poster-runtime.js', import.meta.url).pathname}></script>
