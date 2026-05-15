@@ -48,10 +48,14 @@ const iconUrl = (icon: string) => `${iconBaseUrl}/${icon}.svg`;
             <p class="poster-kicker">Visualización</p>
             <h2 id="preview-title">Pantalla</h2>
           </div>
-          <span class="screen-ratio">16:9</span>
+          <span class="screen-ratio">16:9 · vista zoom</span>
         </div>
         <div class="screen-shell">
-          <div class="poster-screen" data-editor-screen></div>
+          <div class="screen-viewport" aria-label="Previsualización con efecto de pantalla">
+            <div class="screen-bezel">
+              <div class="poster-screen" data-editor-screen></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -65,26 +69,28 @@ const iconUrl = (icon: string) => `${iconBaseUrl}/${icon}.svg`;
         <div data-inspector aria-live="polite"></div>
       </aside>
     </main>
+  </div>
 
-    <aside class="poster-panel page-panel" aria-labelledby="pages-title">
-      <div class="panel-heading">
-        <div>
-          <p class="poster-kicker">Listado</p>
-          <h2 id="pages-title">Páginas</h2>
-        </div>
-        <button type="button" data-add-page aria-label="Añadir página"><img class="toolbar-icon" src={iconUrl('plus')} alt="" loading="lazy" /> Añadir</button>
+  <section class="poster-panel page-panel" aria-labelledby="pages-title">
+    <div class="panel-heading">
+      <div>
+        <p class="poster-kicker">Listado</p>
+        <h2 id="pages-title">Páginas</h2>
       </div>
-      <div class="page-list" data-page-list></div>
+      <button type="button" data-add-page aria-label="Añadir página"><img class="toolbar-icon" src={iconUrl('plus')} alt="" loading="lazy" /> Añadir</button>
+    </div>
+    <div class="page-list" data-page-list></div>
+    <div class="page-panel-fields">
       <label class="share-url">
         <span>URL para la televisión</span>
         <input data-share-url readonly />
       </label>
       <label class="json-box">
         <span>Configuración JSON</span>
-        <textarea data-json rows="8" placeholder="Pulsa exportar JSON para copiar la configuración o pega aquí una configuración para importarla."></textarea>
+        <textarea data-json rows="6" placeholder="Pulsa exportar JSON para copiar la configuración o pega aquí una configuración para importarla."></textarea>
       </label>
-    </aside>
-  </div>
+    </div>
+  </section>
 </section>
 
 <script>
