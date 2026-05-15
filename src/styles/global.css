@@ -135,10 +135,13 @@ button.danger, .inspector .danger { color: var(--color-danger); }
 .poster-editable-text:focus { border-radius: 0.35rem; box-shadow: 0 0 0 3px rgb(56 189 248 / 0.3); }
 .poster-widget:has(.poster-editable-text:focus) { cursor: text; }
 .poster-widget-weather .poster-widget-body, .poster-widget-forecast .poster-widget-body { align-content: center; gap: 0.35rem; color: inherit; }
+.weather-current { display: inline-flex; align-items: center; justify-content: center; gap: 0.25em; }
+.weather-icon { width: 2.8em; height: 2.8em; object-fit: contain; filter: drop-shadow(0 0.12em 0.18em rgb(0 0 0 / 0.22)); }
 .poster-widget-weather span { display: block; font-size: 2em; font-weight: 900; }
 .poster-widget-weather small, .poster-widget-forecast small { opacity: 0.82; }
 .poster-widget-forecast ul { width: 100%; margin: 0.45rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.28rem; }
-.poster-widget-forecast li { display: grid; grid-template-columns: 3rem 1fr; gap: 0.45rem; align-items: center; font-size: 0.95em; }
+.poster-widget-forecast li { display: grid; grid-template-columns: 2.25em 3rem 1fr; gap: 0.45rem; align-items: center; font-size: 0.95em; }
+.poster-widget-forecast .weather-icon { width: 2.25em; height: 2.25em; }
 .widget-resize {
   position: absolute;
   right: 0.25rem;
