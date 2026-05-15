@@ -46,6 +46,7 @@ describe('project smoke checks', () => {
       'astro.config.mjs',
       'src/pages/index.astro',
       'src/pages/[locale]/index.astro',
+      'src/pages/display/index.astro',
       'src/pages/404.astro',
       'src/pages/manifest.webmanifest.ts',
       'src/pages/robots.txt.ts',
@@ -79,7 +80,7 @@ describe('project smoke checks', () => {
   });
 
   it('keeps basic template components available', () => {
-    ['Button', 'Container', 'Footer', 'Header'].forEach((component) => {
+    ['Button', 'Container', 'Footer', 'Header', 'PosterBuilder', 'PosterViewer'].forEach((component) => {
       assert.equal(
         existsSync(join(root, `src/components/${component}.astro`)),
         true,
@@ -109,8 +110,8 @@ describe('project smoke checks', () => {
       );
     });
 
-    assert.match(readme, /Traducciones e idiomas/);
-    assert.match(readme, /src\/i18n\/translations/);
+    assert.match(readme, /Documentación para agentes IA/);
+    assert.match(readme, /src\/i18n\/translations|i18n/);
   });
 
   it('keeps translation files aligned with configured locales', () => {
@@ -159,6 +160,27 @@ describe('project smoke checks', () => {
     assert.match(robots, /sitemap-index\.xml/);
   });
 
+  it('includes the digital signage builder, viewer and widgets', () => {
+    const builder = readText('src/components/PosterBuilder.astro');
+    const viewer = readText('src/components/PosterViewer.astro');
+    const runtime = readText('src/scripts/poster-runtime.js');
+    const data = readText('src/data/widgetTypes.ts');
+    const styles = readText('src/styles/global.css');
+
+    ['text', 'qr', 'datetime', 'image', 'weather', 'forecast'].forEach((type) => {
+      assert.match(data, new RegExp(`['\"]${type}['\"]`));
+    });
+
+    assert.match(builder, /data-poster-builder/);
+    assert.match(viewer, /data-poster-viewer/);
+    assert.match(runtime, /localStorage/);
+    assert.match(runtime, /encodePosterConfig/);
+    assert.match(runtime, /decodePosterConfig/);
+    assert.match(runtime, /Open-Meteo|open-meteo/);
+    assert.match(runtime, /qrserver/);
+    assert.match(styles, /poster-screen-full/);
+  });
+
   it('keeps starter links and labels configurable or translated', () => {
     const siteConfig = readText('src/config/site.ts');
     const header = readText('src/components/Header.astro');
@@ -169,8 +191,8 @@ describe('project smoke checks', () => {
     assert.match(siteConfig, /repositoryUrl/);
     assert.match(envExample, /PUBLIC_REPOSITORY_URL/);
     assert.match(header, /t\('nav\.main'\)/);
-    assert.match(home, /siteConfig\.repositoryUrl/);
-    assert.match(localizedHome, /siteConfig\.repositoryUrl/);
+    assert.match(home, /PosterBuilder/);
+    assert.match(localizedHome, /PosterBuilder/);
     assert.doesNotMatch(home, /https:\/\/github\.com\/jalonsomerchan\/astro-template/);
     assert.doesNotMatch(localizedHome, /https:\/\/github\.com\/jalonsomerchan\/astro-template/);
   });
@@ -190,7 +212,9 @@ describe('project smoke checks', () => {
   it('keeps useful project documentation available', () => {
     const readme = readText('README.md');
 
-    assert.match(readme, /\S/, 'README.md should not be empty');
+    assert.match(readme, /Digital Poster/);
+    assert.match(readme, /localStorage/);
+    assert.match(readme, /Exportación e importación/);
     assert.equal(existsSync(join(root, 'agents.md')), true, 'agents.md should exist');
     assert.equal(existsSync(join(root, 'docs/design-system.md')), true, 'docs/design-system.md should exist');
   });

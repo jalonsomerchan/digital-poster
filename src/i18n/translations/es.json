@@ -1,16 +1,16 @@
 {
-  "site.description": "Plantilla base para crear proyectos con Astro.",
-  "nav.home": "Inicio",
+  "site.description": "Crea pantallas de digital signage desde el navegador y compártelas con una URL para televisión.",
+  "nav.home": "Editor",
   "nav.main": "Navegación principal",
-  "footer.createdWith": "Creado con Astro.",
-  "home.eyebrow": "Astro starter",
-  "home.title": "Plantilla base para proyectos Astro",
-  "home.description": "Una base sencilla con Tailwind, MDX, sitemap, SEO técnico, GitHub Pages y tests smoke para empezar proyectos sin repetir configuración.",
-  "home.docs": "Documentación de Astro",
+  "footer.createdWith": "Editor visual de cartelería digital.",
+  "home.eyebrow": "Digital Signage",
+  "home.title": "Editor visual de pantallas digitales",
+  "home.description": "Diseña pantallas para televisión con widgets de texto, QR, fecha, imagen y tiempo. Guarda en localStorage, exporta JSON y comparte una URL.",
+  "home.docs": "Abrir visor",
   "home.repository": "Repositorio",
   "notFound.title": "Página no encontrada",
   "notFound.description": "La página que buscas no existe.",
   "notFound.eyebrow": "Error 404",
   "notFound.message": "La página que buscas no existe, se ha movido o todavía no ha sido creada.",
-  "notFound.backHome": "Volver al inicio"
+  "notFound.backHome": "Volver al editor"
 }

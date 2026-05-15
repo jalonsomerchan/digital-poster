@@ -1,0 +1,18 @@
+---
+import '../../styles/global.css';
+import PosterViewer from '../../components/PosterViewer.astro';
+import { defaultLocale } from '../../config/site';
+---
+
+<!doctype html>
+<html lang={defaultLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Pantalla digital</title>
+  </head>
+  <body class="viewer-body">
+    <PosterViewer />
+  </body>
+</html>
