@@ -1,6 +1,7 @@
 import { cloneDefaultPoster, decodePosterConfig, encodePosterConfig, uid, clamp } from '../utils/posterState';
 
 const STORAGE_KEY = 'digital-poster-config-v1';
+const BASE_URL = import.meta.env.BASE_URL || '/';
 const WEATHER_CODES = {
   0: 'Despejado', 1: 'Mayormente despejado', 2: 'Parcialmente nuboso', 3: 'Nuboso',
   45: 'Niebla', 48: 'Niebla helada', 51: 'Llovizna suave', 53: 'Llovizna', 55: 'Llovizna intensa',
@@ -143,7 +144,7 @@ function initBuilder(root) {
       el.addEventListener('click', () => { selectedWidgetId = el.dataset.id; sync(); });
     });
     renderInspector();
-    urlOutput.value = `${location.origin}${location.pathname.replace(/\/?$/, '/')}display/?config=${encodePosterConfig(config)}`;
+    urlOutput.value = new URL(`${BASE_URL}display/?config=${encodePosterConfig(config)}`, location.origin).toString();
   }
 
   function renderPages() {
