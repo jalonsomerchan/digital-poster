@@ -181,6 +181,20 @@ describe('project smoke checks', () => {
     assert.match(styles, /poster-screen-full/);
   });
 
+  it('keeps visual editor interactions usable', () => {
+    const runtime = readText('src/scripts/poster-runtime.js');
+    const styles = readText('src/styles/global.css');
+
+    assert.match(runtime, /contentEditable = 'true'/);
+    assert.match(runtime, /dataInlineText|data-inline-text/);
+    assert.match(runtime, /setPointerCapture/);
+    assert.match(runtime, /releasePointerCapture/);
+    assert.match(runtime, /closest\('\.poster-widget'\)/);
+    assert.match(runtime, /!\['municipality', 'url', 'imageUrl'\]\.includes\(key\)/);
+    assert.match(styles, /poster-editable-text/);
+    assert.match(styles, /widget-resize/);
+  });
+
   it('keeps starter links and labels configurable or translated', () => {
     const siteConfig = readText('src/config/site.ts');
     const header = readText('src/components/Header.astro');
