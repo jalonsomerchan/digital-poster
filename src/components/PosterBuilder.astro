@@ -1,14 +1,14 @@
 ---
-import { Icon } from 'astro-icon/components';
-
+const iconBaseUrl = 'https://api.iconify.design/lucide';
 const widgetButtons = [
-  ['text', 'Texto libre', 'lucide:type'],
-  ['qr', 'URL / QR', 'lucide:qr-code'],
-  ['datetime', 'Fecha y hora', 'lucide:clock-3'],
-  ['image', 'Imagen', 'lucide:image'],
-  ['weather', 'Tiempo', 'lucide:sun-cloud'],
-  ['forecast', 'Previsión', 'lucide:cloud-sun'],
+  ['text', 'Texto libre', 'type'],
+  ['qr', 'URL / QR', 'qr-code'],
+  ['datetime', 'Fecha y hora', 'clock-3'],
+  ['image', 'Imagen', 'image'],
+  ['weather', 'Tiempo', 'sun-cloud'],
+  ['forecast', 'Previsión', 'cloud-sun'],
 ];
+const iconUrl = (icon: string) => `${iconBaseUrl}/${icon}.svg`;
 ---
 
 <section class="poster-app" data-poster-builder>
@@ -19,9 +19,9 @@ const widgetButtons = [
       <p>Inserta widgets, configura la pantalla y copia la URL para abrirla en la televisión.</p>
     </div>
     <div class="poster-actions" aria-label="Acciones de configuración">
-      <button type="button" data-export><Icon name="lucide:file-down" aria-hidden="true" /> Exportar JSON</button>
-      <button type="button" data-import><Icon name="lucide:file-up" aria-hidden="true" /> Importar JSON</button>
-      <button type="button" class="danger" data-reset><Icon name="lucide:rotate-ccw" aria-hidden="true" /> Resetear</button>
+      <button type="button" data-export><img class="toolbar-icon" src={iconUrl('file-down')} alt="" loading="lazy" /> Exportar JSON</button>
+      <button type="button" data-import><img class="toolbar-icon" src={iconUrl('file-up')} alt="" loading="lazy" /> Importar JSON</button>
+      <button type="button" class="danger" data-reset><img class="toolbar-icon" src={iconUrl('rotate-ccw')} alt="" loading="lazy" /> Resetear</button>
     </div>
   </header>
 
@@ -33,7 +33,7 @@ const widgetButtons = [
     <div class="widget-palette" role="toolbar" aria-label="Insertar widgets">
       {widgetButtons.map(([type, label, icon]) => (
         <button type="button" data-add-widget={type} title={label} aria-label={`Insertar ${label}`}>
-          <Icon name={icon} aria-hidden="true" />
+          <img class="toolbar-icon" src={iconUrl(icon)} alt="" loading="lazy" />
           <span>{label}</span>
         </button>
       ))}
@@ -72,7 +72,7 @@ const widgetButtons = [
           <p class="poster-kicker">Listado</p>
           <h2 id="pages-title">Páginas</h2>
         </div>
-        <button type="button" data-add-page aria-label="Añadir página"><Icon name="lucide:plus" aria-hidden="true" /> Añadir</button>
+        <button type="button" data-add-page aria-label="Añadir página"><img class="toolbar-icon" src={iconUrl('plus')} alt="" loading="lazy" /> Añadir</button>
       </div>
       <div class="page-list" data-page-list></div>
       <label class="share-url">
