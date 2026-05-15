@@ -2,46 +2,177 @@
 
 :root {
   color-scheme: light;
-  --color-bg: #ffffff;
-  --color-text: #111827;
-  --color-muted: #4b5563;
-  --color-border: #e5e7eb;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f1f5f9;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-border: #e2e8f0;
   --color-primary: #2563eb;
-  --container-width: 72rem;
+  --color-danger: #dc2626;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --shadow-sm: 0 8px 24px rgb(15 23 42 / 0.08);
+  --container-width: 90rem;
 }
 
-* {
-  box-sizing: border-box;
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg: #020617;
+    --color-surface: #0f172a;
+    --color-surface-soft: #111827;
+    --color-text: #f8fafc;
+    --color-muted: #cbd5e1;
+    --color-border: #1e293b;
+    --color-primary: #60a5fa;
+    --color-danger: #f87171;
+    --shadow-sm: 0 8px 28px rgb(0 0 0 / 0.35);
+  }
 }
 
-html {
-  min-height: 100%;
-  scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; }
+html { min-height: 100%; scroll-behavior: smooth; }
 body {
   min-height: 100%;
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.5;
 }
+a { color: inherit; }
+img, picture, svg, video { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-primary), transparent 35%); outline-offset: 3px; }
 
-a {
-  color: inherit;
+.poster-app {
+  width: min(100% - 2rem, 94rem);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+.poster-hero {
+  display: grid;
+  gap: 1.5rem;
+  align-items: end;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--color-primary), transparent 84%), transparent 22rem),
+    var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+.poster-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.poster-hero h1 { margin: 0; max-width: 15ch; font-size: clamp(2.2rem, 7vw, 5rem); line-height: 0.95; letter-spacing: -0.055em; }
+.poster-hero p:last-child { max-width: 52rem; margin: 1rem 0 0; color: var(--color-muted); font-size: 1.05rem; }
+.poster-actions, .widget-palette { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.poster-actions button, .widget-palette button, .poster-panel > button, .inspector button {
+  min-height: 2.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.8rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 0.7rem 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.poster-actions button:hover, .widget-palette button:hover, .poster-panel > button:hover { border-color: var(--color-primary); color: var(--color-primary); }
+button.danger, .inspector .danger { color: var(--color-danger); }
+.poster-grid { display: grid; gap: 1rem; margin-top: 1rem; }
+.poster-panel, .poster-workspace {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+.poster-panel { padding: 1rem; }
+.poster-panel h2 { margin: 0 0 0.8rem; font-size: 1rem; }
+.poster-panel h2:not(:first-child) { margin-top: 1.4rem; }
+.page-list { display: grid; gap: 0.5rem; margin-bottom: 0.75rem; }
+.page-list button { width: 100%; text-align: left; }
+.page-list .is-active { border-color: var(--color-primary); color: var(--color-primary); }
+.poster-workspace { padding: 1rem; }
+.screen-shell {
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-soft);
+  padding: 0.7rem;
+}
+.poster-screen {
+  position: relative;
+  width: min(100%, 64rem);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #101827;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+}
+.poster-widget {
+  position: absolute;
+  display: grid;
+  min-width: 3rem;
+  min-height: 3rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: move;
+  touch-action: none;
+}
+.poster-widget.is-selected { border-color: #38bdf8; box-shadow: 0 0 0 3px rgb(56 189 248 / 0.25); }
+.poster-widget-body { width: 100%; height: 100%; display: grid; place-items: center; padding: 0.7rem; text-align: center; overflow: hidden; }
+.poster-widget-body img { width: 100%; height: 100%; object-fit: cover; }
+.poster-widget-weather .poster-widget-body, .poster-widget-forecast .poster-widget-body { align-content: center; gap: 0.35rem; color: inherit; }
+.poster-widget-weather span { display: block; font-size: 2em; font-weight: 900; }
+.poster-widget-weather small, .poster-widget-forecast small { opacity: 0.82; }
+.poster-widget-forecast ul { width: 100%; margin: 0.45rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.28rem; }
+.poster-widget-forecast li { display: grid; grid-template-columns: 3rem 1fr; gap: 0.45rem; align-items: center; font-size: 0.95em; }
+.widget-resize {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: #38bdf8;
+  cursor: nwse-resize;
+}
+.share-url, .json-box, .inspector label { display: grid; gap: 0.35rem; margin-top: 0.85rem; color: var(--color-muted); font-size: 0.9rem; font-weight: 700; }
+.share-url input, .json-box textarea, .inspector input, .inspector select {
+  width: 100%;
+  min-height: 2.45rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  padding: 0.65rem 0.75rem;
+}
+.json-box textarea { min-height: 8rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.inspector hr { margin: 1rem 0; border: 0; border-top: 1px solid var(--color-border); }
+.inspector input[type="checkbox"] { width: auto; min-height: auto; margin-right: 0.45rem; }
+
+.viewer-body { min-height: 100vh; overflow: hidden; background: #000; }
+.poster-viewer, .poster-screen-full { width: 100vw; height: 100vh; }
+.poster-screen-full { aspect-ratio: auto; border-radius: 0; }
+.poster-screen-full .poster-widget { cursor: default; border: 0; }
+
+@media (min-width: 900px) {
+  .poster-hero { grid-template-columns: 1fr auto; }
+  .poster-grid { grid-template-columns: 16rem minmax(0, 1fr) 18rem; align-items: start; }
+  .poster-panel, .poster-workspace { position: sticky; top: 1rem; }
 }
 
-img,
-picture,
-svg,
-video {
-  display: block;
-  max-width: 100%;
-}
-
-:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-primary), transparent 35%);
-  outline-offset: 3px;
+@media (max-width: 899px) {
+  .poster-actions button, .widget-palette button { flex: 1 1 10rem; }
+  .poster-screen { min-width: 46rem; }
 }
