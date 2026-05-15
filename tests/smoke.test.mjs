@@ -181,6 +181,18 @@ describe('project smoke checks', () => {
     assert.match(styles, /poster-screen-full/);
   });
 
+  it('uses OpenWeather icons in weather widgets', () => {
+    const runtime = readText('src/scripts/poster-runtime.js');
+    const styles = readText('src/styles/global.css');
+
+    assert.match(runtime, /openweathermap\.org\/img\/wn/);
+    assert.match(runtime, /WEATHER_ICON_CODES/);
+    assert.match(runtime, /weatherIconHtml/);
+    assert.match(runtime, /is_day/);
+    assert.match(styles, /weather-icon/);
+    assert.match(styles, /weather-current/);
+  });
+
   it('keeps visual editor interactions usable', () => {
     const runtime = readText('src/scripts/poster-runtime.js');
     const styles = readText('src/styles/global.css');

@@ -15,15 +15,44 @@ const WEATHER_CODES = {
   61: 'Lluvia débil',
   63: 'Lluvia',
   65: 'Lluvia fuerte',
+  66: 'Lluvia helada débil',
+  67: 'Lluvia helada fuerte',
   71: 'Nieve débil',
   73: 'Nieve',
   75: 'Nieve fuerte',
+  77: 'Granos de nieve',
   80: 'Chubascos débiles',
   81: 'Chubascos',
   82: 'Chubascos fuertes',
   95: 'Tormenta',
   96: 'Tormenta con granizo',
   99: 'Tormenta fuerte',
+};
+const WEATHER_ICON_CODES = {
+  0: '01',
+  1: '02',
+  2: '03',
+  3: '04',
+  45: '50',
+  48: '50',
+  51: '09',
+  53: '09',
+  55: '09',
+  61: '10',
+  63: '10',
+  65: '10',
+  66: '13',
+  67: '13',
+  71: '13',
+  73: '13',
+  75: '13',
+  77: '13',
+  80: '09',
+  81: '09',
+  82: '09',
+  95: '11',
+  96: '11',
+  99: '11',
 };
 
 function getConfigFromUrl() {
@@ -98,6 +127,17 @@ function escapeHtml(value = '') {
   })[char]);
 }
 
+function weatherIconUrl(code, isDay = true) {
+  const icon = WEATHER_ICON_CODES[code] || '01';
+  const suffix = isDay ? 'd' : 'n';
+
+  return `https://openweathermap.org/img/wn/${icon}${suffix}@2x.png`;
+}
+
+function weatherIconHtml(code, label, isDay = true) {
+  return `<img class="weather-icon" src="${weatherIconUrl(code, isDay)}" width="100" height="100" alt="${escapeHtml(label)}" loading="lazy" decoding="async" />`;
+}
+
 function getDateTime(format) {
   const now = new Date();
   if (format === 'date') return now.toLocaleDateString('es-ES', { dateStyle: 'full' });
@@ -121,7 +161,7 @@ async function fetchWeather(place, forecast = false) {
 
   const params = forecast
     ? 'daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7'
-    : 'current=temperature_2m,weather_code,wind_speed_10m';
+    : 'current=temperature_2m,weather_code,wind_speed_10m,is_day';
   const data = await fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&${params}&timezone=auto`
   ).then((response) => response.json());
@@ -135,7 +175,8 @@ function renderWeather(widget, target) {
   fetchWeather(widget.municipality)
     .then(({ name, data }) => {
       const current = data.current;
-      target.innerHTML = `<strong>${escapeHtml(name)}</strong><span>${Math.round(current.temperature_2m)} °C</span><small>${WEATHER_CODES[current.weather_code] || 'Tiempo actual'} · viento ${Math.round(current.wind_speed_10m)} km/h</small>`;
+      const label = WEATHER_CODES[current.weather_code] || 'Tiempo actual';
+      target.innerHTML = `<strong>${escapeHtml(name)}</strong><div class="weather-current">${weatherIconHtml(current.weather_code, label, current.is_day !== 0)}<span>${Math.round(current.temperature_2m)} °C</span></div><small>${label} · viento ${Math.round(current.wind_speed_10m)} km/h</small>`;
     })
     .catch(() => {
       target.textContent = 'No se pudo cargar el tiempo';
@@ -149,7 +190,10 @@ function renderForecast(widget, target) {
     .then(({ name, data }) => {
       const rows = data.daily.time
         .slice(0, Number(widget.days || 4))
-        .map((day, index) => `<li><b>${new Date(day).toLocaleDateString('es-ES', { weekday: 'short' })}</b><span>${Math.round(data.daily.temperature_2m_min[index])}° / ${Math.round(data.daily.temperature_2m_max[index])}°</span><small>${WEATHER_CODES[data.daily.weather_code[index]] || ''}</small></li>`)
+        .map((day, index) => {
+          const label = WEATHER_CODES[data.daily.weather_code[index]] || 'Previsión';
+          return `<li>${weatherIconHtml(data.daily.weather_code[index], label)}<b>${new Date(day).toLocaleDateString('es-ES', { weekday: 'short' })}</b><span>${Math.round(data.daily.temperature_2m_min[index])}° / ${Math.round(data.daily.temperature_2m_max[index])}°</span><small>${label}</small></li>`;
+        })
         .join('');
       target.innerHTML = `<strong>${escapeHtml(name)}</strong><ul>${rows}</ul>`;
     })
